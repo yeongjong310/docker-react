@@ -2,7 +2,8 @@ version: 2.1
 
 jobs:
   build:
-    executor: docker-executor
+    docker:
+      - image: 'node:alpine'
     steps:
       - checkout
       - setup_remote_docker:
