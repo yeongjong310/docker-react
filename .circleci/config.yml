@@ -1,0 +1,29 @@
+version: 2.1
+
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/node:16ㅞ
+
+jobs:
+  build:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: Start creating an image with Dockerfile
+          command: docker build -t react-app -f Dockerfile .
+      - run:
+          name: Run tests
+          command: docker run -e CI=true react-app npm test -- --coverage
+      - run:
+          name: Test success
+          command: echo "Test success"
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build
